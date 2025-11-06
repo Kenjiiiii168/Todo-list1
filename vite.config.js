@@ -15,7 +15,13 @@ export default defineConfig({
   },
   preview: {
     port: 3000,
+<<<<<<< HEAD
     host: true
     preview.allowedHosts
+=======
+    host: true,
+    // Allow Render preview/hosted domain if using preview in prod
+    allowedHosts: ['todo-list1-hxzj.onrender.com']
+>>>>>>> 91f755d (deploy: allow Render host + CORS/proxy updates)
   }
 })

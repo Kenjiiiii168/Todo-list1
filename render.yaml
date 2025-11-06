@@ -16,6 +16,11 @@ services:
         value: "None"
       - key: SESSION_COOKIE_SECURE
         value: "true"
+      - key: ALLOWED_ORIGINS
+        fromService:
+          type: web
+          name: todo-frontend
+          property: url
     postDeployCommand: |
       flask db upgrade
 
