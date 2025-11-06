@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: todo-backend
+    env: python
+    rootDir: server/Login
+    buildCommand: pip install -r ../requirements.txt
+    startCommand: gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: SESSION_PERMANENT
+        value: "true"
+      - key: SESSION_COOKIE_SAMESITE
+        value: "None"
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+    postDeployCommand: |
+      flask db upgrade
+
+  - type: web
+    name: todo-frontend
+    env: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: todo-backend
+          property: url
+

@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "dev:server": "powershell -NoProfile -Command \"cd server/Login; if (Test-Path venv\\Scripts\\Activate.ps1) { . .\\venv\\Scripts\\Activate.ps1 }; $env:FLASK_APP='app.py'; flask run --host 127.0.0.1 --port 5000\"",
+    "dev:client": "vite",
+    "dev:all": "powershell -NoProfile -Command \"Start-Process powershell -ArgumentList '-NoProfile','-Command','npm run dev:server'; npm run dev:client\""
   },
   "dependencies": {
     "react": "^19.1.1",

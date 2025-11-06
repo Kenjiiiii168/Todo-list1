@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || ''
+
 async function apiFetch(path, options = {}) {
-  const resp = await fetch(path, {
+  const url = `${API_BASE}${path}`
+  const resp = await fetch(url, {
     credentials: 'include',
     headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
     ...options,
