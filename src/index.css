@@ -1,0 +1,101 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.92);
+  background-color: #0f172a;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  /* Winter blue gradient with slow animation */
+  background: linear-gradient(120deg, #0b1020, #102a5c, #1f6feb, #60a5fa);
+  background-size: 200% 200%;
+  animation: winter-shift 30s ease-in-out infinite;
+  position: relative;
+}
+
+/* soft animated snow overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .5;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.9) 50%, transparent 51%),
+    radial-gradient(2px 2px at 100px 80px, rgba(255,255,255,.85) 50%, transparent 51%),
+    radial-gradient(3px 3px at 200px 150px, rgba(255,255,255,.8) 50%, transparent 51%),
+    radial-gradient(2px 2px at 300px 120px, rgba(255,255,255,.9) 50%, transparent 51%),
+    radial-gradient(2px 2px at 400px 200px, rgba(255,255,255,.85) 50%, transparent 51%);
+  background-repeat: repeat;
+  animation: snow-fall 20s linear infinite;
+}
+
+@keyframes snow-fall {
+  from { transform: translateY(-20px); }
+  to { transform: translateY(20px); }
+}
+
+@keyframes winter-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #0b1220;
+    background-color: #e6f0ff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
