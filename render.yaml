@@ -5,12 +5,6 @@ services:
     env: static
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
-    envVars:
-      - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: todo-backend
-          property: url
 
   - type: web
     name: todo-backend
@@ -29,11 +23,10 @@ services:
         value: "None"
       - key: SESSION_COOKIE_SECURE
         value: "true"
-      - key: ALLOWED_ORIGINS
-        fromService:
-          type: web
-          name: todo-frontend
-          property: url
+      # Set ALLOWED_ORIGINS manually after creation to your frontend URL,
+      # e.g. https://todo-frontend.onrender.com
+      # - key: ALLOWED_ORIGINS
+      #   value: https://todo-frontend.onrender.com
       - key: FLASK_APP
         value: app.py
     preDeployCommand: FLASK_APP=app.py flask db upgrade
