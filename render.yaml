@@ -36,6 +36,6 @@ services:
           property: url
       - key: FLASK_APP
         value: app.py
-    postDeployCommand: |
+    preDeployCommand: |
       FLASK_APP=app.py flask db upgrade
 
