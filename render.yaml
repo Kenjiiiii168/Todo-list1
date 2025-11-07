@@ -1,4 +1,17 @@
 services:
+  # Define frontend first so backend can safely reference it in envVars
+  - type: web
+    name: todo-frontend
+    env: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: todo-backend
+          property: url
+
   - type: web
     name: todo-backend
     env: python
@@ -21,18 +34,8 @@ services:
           type: web
           name: todo-frontend
           property: url
+      - key: FLASK_APP
+        value: app.py
     postDeployCommand: |
-      flask db upgrade
-
-  - type: web
-    name: todo-frontend
-    env: static
-    buildCommand: npm ci && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: todo-backend
-          property: url
+      FLASK_APP=app.py flask db upgrade
 
