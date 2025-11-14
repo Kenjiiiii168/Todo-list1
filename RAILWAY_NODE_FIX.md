@@ -30,15 +30,24 @@
 
 1. ไปที่ **Frontend service** → **Settings** tab
 2. หา **"Build Command"**
-3. ใส่:
+3. ใส่ (เลือก 1 วิธี):
+   
+   **วิธีที่ 1: ใช้ npm install (แนะนำ):**
    ```
-   npm ci && npm run build
+   npm install && npm run build
    ```
-   **หมายเหตุ:** อย่าลบ cache (Docker cache mount จะจัดการให้)
-   หรือถ้ายังมีปัญหา:
+   
+   **วิธีที่ 2: ใช้ npm ci กับ cache ต่างที่:**
    ```
    npm ci --cache /tmp/.npm && npm run build
    ```
+   
+   **วิธีที่ 3: ใช้ npm ci แต่ไม่ลบ cache:**
+   ```
+   npm ci --prefer-offline --no-audit && npm run build
+   ```
+   
+   **หมายเหตุ:** `npm ci` จะพยายามลบ cache ซึ่งทำให้เกิด EBUSY error กับ Docker cache mount
 
 ### 4. ไฟล์ที่สร้างไว้แล้ว:
 

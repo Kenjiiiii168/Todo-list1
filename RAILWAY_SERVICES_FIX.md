@@ -26,8 +26,9 @@ cd server && pip install -r requirements.txt
 
 2. **ตั้งค่า Build Command:**
    - หา **"Build Command"**
-   - ใส่: `npm ci && npm run build`
-   - **หมายเหตุ:** อย่าลบ cache (Docker cache mount จะจัดการให้)
+   - ใส่: `npm install && npm run build`
+   - หรือ: `npm ci --cache /tmp/.npm && npm run build`
+   - **หมายเหตุ:** ใช้ `npm install` แทน `npm ci` เพื่อหลีกเลี่ยง EBUSY error
    - **อย่าใส่ pip install!**
 
 3. **ตั้งค่า Start Command:**
@@ -44,7 +45,7 @@ cd server && pip install -r requirements.txt
 ### วิธีที่ 3: ตรวจสอบว่าแยก Services ถูกต้อง
 
 **Frontend Service:**
-- Build Command: `npm ci && npm run build`
+- Build Command: `npm install && npm run build` (หรือ `npm ci --cache /tmp/.npm && npm run build`)
 - Start Command: `npx serve -s dist -l $PORT`
 - Node Version: `20`
 
