@@ -49,9 +49,10 @@ cd server && pip install -r requirements.txt
 - Node Version: `20`
 
 **Backend Service:**
-- Build Command: `cd server && pip install -r requirements.txt`
+- Build Command: `cd server && python -m pip install -r requirements.txt`
 - Start Command: `cd server/Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
 - Python Version: `3.11`
+- **หมายเหตุ:** ใช้ `python -m pip` แทน `pip` เพื่อให้แน่ใจว่าใช้ Python ที่ถูกต้อง
 
 ## 📝 Checklist:
 

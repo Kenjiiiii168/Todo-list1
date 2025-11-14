@@ -1,0 +1,68 @@
+# 🔧 แก้ Backend Service: pip not found
+
+## ❌ Error ที่เจอ:
+
+```
+sh: 1: pip: not found
+ERROR: failed to build: failed to solve: process "sh -c cd server && pip install -r requirements.txt" did not complete successfully: exit code: 127
+```
+
+## 🔍 สาเหตุ:
+
+1. **Railway ไม่ได้ detect Python project** - อาจต้องตั้งค่า Python version
+2. **pip ไม่ได้ติดตั้ง** - ต้องใช้ `python -m pip` แทน `pip`
+3. **Python path ไม่ถูกต้อง** - ต้องใช้ `python3` หรือ `python`
+
+## ✅ วิธีแก้:
+
+### วิธีที่ 1: ใช้ python -m pip (แนะนำ)
+
+1. ไปที่ **Backend service** → **Settings** tab
+
+2. **ตั้งค่า Build Command:**
+   - หา **"Build Command"** หรือ **"Install Command"**
+   - ใส่: `cd server && python -m pip install -r requirements.txt`
+   - หรือ: `python3 -m pip install -r server/requirements.txt`
+   - หรือ: `python -m pip install --upgrade pip && cd server && python -m pip install -r requirements.txt`
+
+3. **ตั้งค่า Python Version (ถ้ามี):**
+   - หา **"Python Version"** หรือ **"Runtime Version"**
+   - ตั้งค่าเป็น: `3.11` หรือ `3.12`
+
+4. **Save**
+
+### วิธีที่ 2: ใช้ Environment Variable
+
+1. ไปที่ **Backend service** → **Variables** tab
+2. เพิ่ม:
+   - **Key:** `PYTHON_VERSION`
+   - **Value:** `3.11`
+3. **Save**
+
+### วิธีที่ 3: ตรวจสอบว่า Railway Detect Python
+
+1. ไปที่ **Backend service** → **Settings** tab
+2. ดูว่า Railway detect เป็น Python project หรือไม่
+3. ถ้าไม่ → ลบ service แล้วสร้างใหม่
+4. หรือตั้งค่า **"Language"** หรือ **"Runtime"** = `Python`
+
+## 📝 Checklist:
+
+- [ ] ตั้งค่า Build Command = `cd server && python -m pip install -r requirements.txt`
+- [ ] ตั้งค่า Python Version = 3.11 (ถ้ามี)
+- [ ] ตั้งค่า Start Command = `cd server/Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+- [ ] ตรวจสอบว่า DATABASE_URL ถูกตั้งค่าแล้ว
+- [ ] Deploy ใหม่
+
+## 🆘 ถ้ายังไม่ได้:
+
+ลองใช้ Build Command แบบนี้:
+```
+python3 -m pip install --upgrade pip && cd server && python3 -m pip install -r requirements.txt
+```
+
+หรือ:
+```
+apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt
+```
+

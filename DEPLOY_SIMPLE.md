@@ -38,7 +38,8 @@
    - ไปที่ Backend service → คลิก **"Settings"** tab
    - หา **"Start Command"** หรือ **"Deploy Command"**
    - ใส่: `cd server/Login && gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
-   - หรือถ้ามี **"Build Command"** → ใส่: `cd server && pip install -r requirements.txt`
+   - หรือถ้ามี **"Build Command"** → ใส่: `cd server && python -m pip install -r requirements.txt`
+   - **หมายเหตุ:** ใช้ `python -m pip` แทน `pip` เพื่อให้แน่ใจว่าใช้ Python ที่ถูกต้อง
    - คลิก **"Save"**
    - **หมายเหตุ:** ถ้าไม่มี Root Directory setting → ใช้วิธีนี้แทน ✅
 

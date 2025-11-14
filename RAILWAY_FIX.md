@@ -18,8 +18,10 @@ ERROR (catatonit:2): failed to exec pid1: No such file or directory
 
 2. **ตั้งค่า Build Command:**
    - หา **"Build Command"** หรือ **"Install Command"**
-   - ใส่: `cd server && pip install -r requirements.txt`
-   - หรือ: `pip install -r server/requirements.txt`
+   - ใส่: `cd server && python -m pip install -r requirements.txt`
+   - หรือ: `python -m pip install -r server/requirements.txt`
+   - หรือ: `python3 -m pip install -r server/requirements.txt`
+   - **หมายเหตุ:** ใช้ `python -m pip` แทน `pip` เพื่อให้แน่ใจว่าใช้ Python ที่ถูกต้อง
 
 3. **ตั้งค่า Start Command:**
    - หา **"Start Command"** หรือ **"Run Command"**
