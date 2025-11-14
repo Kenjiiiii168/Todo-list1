@@ -1,8 +1,11 @@
 [phases.setup]
-nixPkgs = ["python311", "python311Packages.pip"]
+nixPkgs = ["python311"]
 
 [phases.install]
-cmds = ["python3 -m pip install --break-system-packages -r requirements.txt"]
+cmds = [
+  "python3 -m ensurepip --upgrade",
+  "python3 -m pip install --break-system-packages -r requirements.txt"
+]
 
 [start]
 cmd = "cd Login && python3 -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2"
