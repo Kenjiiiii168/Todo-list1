@@ -34,10 +34,13 @@
      FLASK_APP = app.py
      ```
 
-7. **ตั้งค่า Root Directory:**
+7. **ตั้งค่า Start Command (แทน Root Directory):**
    - ไปที่ Backend service → คลิก **"Settings"** tab
-   - หา **"Root Directory"** → ใส่: `server/Login`
+   - หา **"Start Command"** หรือ **"Deploy Command"**
+   - ใส่: `cd server/Login && gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+   - หรือถ้ามี **"Build Command"** → ใส่: `cd server && pip install -r requirements.txt`
    - คลิก **"Save"**
+   - **หมายเหตุ:** ถ้าไม่มี Root Directory setting → ใช้วิธีนี้แทน ✅
 
 8. **Run Migration (สร้าง tables):**
    - รอให้ deploy เสร็จก่อน (ดูที่ Deployments tab)
