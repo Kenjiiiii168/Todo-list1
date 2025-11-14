@@ -50,10 +50,10 @@ cd server && pip install -r requirements.txt
 - Node Version: `20`
 
 **Backend Service:**
-- Build Command: `cd server && python -m pip install -r requirements.txt`
-- Start Command: `cd server/Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+- Build Command: `cd server && python3 -m pip install -r requirements.txt`
+- Start Command: `cd server/Login && python3 -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
 - Python Version: `3.11`
-- **หมายเหตุ:** ใช้ `python -m pip` แทน `pip` เพื่อให้แน่ใจว่าใช้ Python ที่ถูกต้อง
+- **หมายเหตุ:** ใช้ `python3` แทน `python` (Railway ใช้ python3)
 
 ## 📝 Checklist:
 
