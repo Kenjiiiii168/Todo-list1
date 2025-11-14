@@ -31,7 +31,7 @@ ERROR: failed to build: failed to solve: process "/bin/bash -ol pipefail -c pip 
    - ไฟล์ `server/nixpacks.toml` ถูกแก้ไขแล้ว:
    ```toml
    [phases.setup]
-   nixPkgs = ["python311", "pip"]
+   nixPkgs = ["python311"]
    
    [phases.install]
    cmds = ["python3 -m pip install --break-system-packages -r requirements.txt"]
@@ -39,6 +39,7 @@ ERROR: failed to build: failed to solve: process "/bin/bash -ol pipefail -c pip 
    [start]
    cmd = "cd Login && python3 -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2"
    ```
+   - **หมายเหตุ:** `python311` มี pip มาด้วยอยู่แล้ว ไม่ต้องเพิ่ม `pip` ใน `nixPkgs`
    - ใช้ `python3 -m pip` แทน `pip` เพื่อให้แน่ใจว่าใช้ Python ที่ถูกต้อง
    - ใช้ `python3` ใน start command (Nixpacks ใช้ `python3`)
 
