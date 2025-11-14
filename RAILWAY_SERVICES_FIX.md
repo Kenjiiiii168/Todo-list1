@@ -26,7 +26,8 @@ cd server && pip install -r requirements.txt
 
 2. **ตั้งค่า Build Command:**
    - หา **"Build Command"**
-   - ใส่: `rm -rf node_modules/.cache && npm ci && npm run build`
+   - ใส่: `npm ci && npm run build`
+   - **หมายเหตุ:** อย่าลบ cache (Docker cache mount จะจัดการให้)
    - **อย่าใส่ pip install!**
 
 3. **ตั้งค่า Start Command:**

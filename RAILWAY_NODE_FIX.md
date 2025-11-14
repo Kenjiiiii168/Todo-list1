@@ -30,15 +30,12 @@
 
 1. ไปที่ **Frontend service** → **Settings** tab
 2. หา **"Build Command"**
-3. เปลี่ยนจาก:
+3. ใส่:
    ```
    npm ci && npm run build
    ```
-   เป็น:
-   ```
-   rm -rf node_modules/.cache && npm ci && npm run build
-   ```
-   หรือ:
+   **หมายเหตุ:** อย่าลบ cache (Docker cache mount จะจัดการให้)
+   หรือถ้ายังมีปัญหา:
    ```
    npm ci --cache /tmp/.npm && npm run build
    ```
