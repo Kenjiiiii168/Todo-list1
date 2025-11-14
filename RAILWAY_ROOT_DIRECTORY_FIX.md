@@ -13,12 +13,15 @@
 
 1. ไปที่ **Backend service** → **Settings** tab
 2. **เลื่อนขึ้นไปดูส่วน "Source"** (หรือคลิก "Source" ในแถบด้านขวา)
-3. หา **"Add Root Directory"** link (หรือ "Root Directory" field)
-4. คลิก **"Add Root Directory"**
-5. ใส่: `server`
-6. **Save** หรือกด Enter
+3. หา **"Root Directory"** field (หรือ "Add Root Directory" link ถ้ายังไม่ได้ตั้งค่า)
+4. **แก้ไข Root Directory:**
+   - ถ้าเห็น `/server` → เปลี่ยนเป็น `server` (ลบ slash นำหน้า)
+   - ถ้ายังว่าง → ใส่: `server`
+5. **Save** หรือกด Enter
 
-**หมายเหตุ:** หลังจากตั้งค่าแล้ว จะไม่เห็น "Add Root Directory" link อีก แต่จะเห็น Root Directory ที่ตั้งค่าไว้
+**หมายเหตุ:** 
+- ใช้ `server` ไม่ใช่ `/server` (ไม่มี slash นำหน้า)
+- หลังจากตั้งค่าแล้ว จะเห็น Root Directory ที่ตั้งค่าไว้
 
 ---
 
