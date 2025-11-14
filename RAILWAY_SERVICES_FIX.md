@@ -51,9 +51,13 @@ cd server && pip install -r requirements.txt
 
 **Backend Service:**
 - Build Command: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install --break-system-packages -r requirements.txt`
-- Start Command: `cd server/Login && python3 -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+- Start Command: `cd server/Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+- Pre-Deploy Command: `cd server/Login && FLASK_APP=app.py python -m flask db upgrade`
 - Python Version: `3.11`
-- **หมายเหตุ:** ใช้ `--break-system-packages` flag เพื่อ override externally-managed-environment (PEP 668)
+- **หมายเหตุ:** 
+  - Build Command ใช้ `python3` (เพราะติดตั้ง python3-pip)
+  - Start Command และ Pre-Deploy Command ใช้ `python` (Railway container ใช้ `python` ไม่ใช่ `python3`)
+  - ใช้ `--break-system-packages` flag เพื่อ override externally-managed-environment (PEP 668)
 
 ## 📝 Checklist:
 

@@ -48,9 +48,9 @@ ERROR: failed to build: failed to solve: process "sh -c cd server && pip install
 
 4. **ตั้งค่า Pre-Deploy Command (Run Migration):**
    - หา **"Pre-Deploy Command"** หรือ **"Before Deploy"**
-   - ใส่: `cd server/Login && FLASK_APP=app.py python3 -m flask db upgrade`
-   - หรือ: `cd server/Login && export FLASK_APP=app.py && python3 -m flask db upgrade`
-   - **หมายเหตุ:** ใช้ `python3` แทน `python` และ `python3 -m flask` แทน `flask`
+   - ใส่: `cd server/Login && FLASK_APP=app.py python -m flask db upgrade`
+   - หรือ: `cd server/Login && export FLASK_APP=app.py && python -m flask db upgrade`
+   - **หมายเหตุ:** ใช้ `python` ใน Start Command และ Pre-Deploy Command (Railway container ใช้ `python` ไม่ใช่ `python3`)
 
 5. **Save**
 
@@ -58,8 +58,8 @@ ERROR: failed to build: failed to solve: process "sh -c cd server && pip install
 
 - [ ] ตั้งค่า Build Command = `cd server && python3 -m pip install -r requirements.txt`
 - [ ] ตั้งค่า Python Version = 3.11 (ถ้ามี)
-- [ ] ตั้งค่า Start Command = `cd server/Login && python3 -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
-- [ ] ตั้งค่า Pre-Deploy Command = `cd server/Login && FLASK_APP=app.py python3 -m flask db upgrade`
+- [ ] ตั้งค่า Start Command = `cd server/Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+- [ ] ตั้งค่า Pre-Deploy Command = `cd server/Login && FLASK_APP=app.py python -m flask db upgrade`
 - [ ] ตรวจสอบว่า DATABASE_URL ถูกตั้งค่าแล้ว
 - [ ] Deploy ใหม่
 
