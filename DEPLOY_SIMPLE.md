@@ -48,7 +48,35 @@
 
 ---
 
-### 3️⃣ Deploy Frontend บน Vercel
+### 3️⃣ Deploy Frontend (เลือก 1 วิธี)
+
+**วิธีที่ 1: ใช้ Railway (แนะนำ - ใช้ทั้งหมดที่เดียว!)**
+
+1. ใน Railway project เดียวกัน → คลิก **"+ New"**
+2. เลือก **"GitHub Repo"**
+3. เลือก repository เดียวกัน: `Kenjiiiii168/Todo-list1`
+
+4. **ตั้งค่า:**
+   - Railway จะ detect เป็น Static Site อัตโนมัติ
+   - **Root Directory:** `.` (root)
+   - **Build Command:** `npm ci && npm run build`
+   - **Start Command:** `npx serve -s dist -l $PORT`
+   - **Output Directory:** `dist` (ถ้ามี)
+
+5. **Environment Variables:**
+   - คลิก **"Variables"** tab
+   - เพิ่ม:
+     - **Key:** `VITE_API_BASE_URL`
+     - **Value:** URL ของ backend จาก Railway
+       - ไปที่ Backend service → คลิก **"Settings"**
+       - Copy **"Public Domain"** (เช่น `https://your-backend.railway.app`)
+       - วางใน Frontend Environment Variable
+
+6. ✅ Railway จะ deploy อัตโนมัติ!
+
+---
+
+**วิธีที่ 2: ใช้ Vercel (ถ้าต้องการแยก)**
 
 1. ไปที่ https://vercel.com
 2. Sign up ด้วย **GitHub** (คลิกเดียว)
@@ -81,9 +109,10 @@
 2. คลิก **"+ New Variable"**
 3. เพิ่ม:
    - **Key:** `ALLOWED_ORIGINS`
-   - **Value:** URL ของ frontend จาก Vercel
-     - ไปที่ Vercel → Project → **"Settings"** → **"Domains"**
-     - Copy URL (เช่น `https://your-frontend.vercel.app`)
+   - **Value:** URL ของ frontend
+     - **ถ้าใช้ Railway:** ไปที่ Frontend service → **"Settings"** → Copy **"Public Domain"**
+     - **ถ้าใช้ Vercel:** ไปที่ Vercel → Project → **"Settings"** → **"Domains"** → Copy URL
+     - ตัวอย่าง: `https://your-frontend.railway.app` หรือ `https://your-frontend.vercel.app`
      - วางใน Railway Variable
 
 4. ✅ Backend จะ restart อัตโนมัติ
@@ -110,8 +139,7 @@
 - [ ] ตั้งค่า Environment Variables
 - [ ] ตั้งค่า Root Directory = `server/Login`
 - [ ] Run Migration (`flask db upgrade`)
-- [ ] สร้างบัญชี Vercel
-- [ ] Deploy Frontend บน Vercel
+- [ ] Deploy Frontend บน Railway (หรือ Vercel)
 - [ ] ตั้งค่า `VITE_API_BASE_URL`
 - [ ] ตั้งค่า `ALLOWED_ORIGINS` ใน Railway
 - [ ] ทดสอบใช้งาน
@@ -120,8 +148,13 @@
 
 ## 💰 ราคา
 
-- **Railway:** ฟรี $5/เดือน (พอใช้)
-- **Vercel:** ฟรีไม่จำกัด
+**ถ้าใช้ Railway ทั้งหมด:**
+- **Railway:** ฟรี $5/เดือน (พอใช้สำหรับ Backend + Database + Frontend)
+- **รวม:** **ฟรี 100%!** 🎉
+
+**ถ้าใช้ Railway + Vercel:**
+- **Railway:** ฟรี $5/เดือน (Backend + Database)
+- **Vercel:** ฟรีไม่จำกัด (Frontend)
 - **รวม:** **ฟรี 100%!** 🎉
 
 ---
