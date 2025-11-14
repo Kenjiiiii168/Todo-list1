@@ -10,12 +10,13 @@ migrate = Migrate()
 
 def init_extensions(app):
     # Allow dev hosts and any additional comma-separated ALLOWED_ORIGINS from env (for Render)
-    default_origins = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ]
+default_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://todo-frontend-production-a24d.up.railway.app",  # 👈 ใส่ของโอนี่จังตรงนี้
+]
     extra = [o.strip() for o in os.environ.get("ALLOWED_ORIGINS", "").split(",") if o.strip()]
     origins = default_origins + extra
 
