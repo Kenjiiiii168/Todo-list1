@@ -62,6 +62,7 @@
    - **Build Command:** `npm ci && npm run build`
    - **Start Command:** `npx serve -s dist -l $PORT`
    - **Output Directory:** `dist` (ถ้ามี)
+   - **หมายเหตุ:** Vite จะ bundle CSS อัตโนมัติ (index.css, App.css) ลงใน dist folder ✅
 
 5. **Environment Variables:**
    - คลิก **"Variables"** tab
@@ -88,6 +89,7 @@
    - **Root Directory:** `.` (root - มีอยู่แล้ว)
    - **Build Command:** `npm ci && npm run build` (มีอยู่แล้ว)
    - **Output Directory:** `dist` (มีอยู่แล้ว)
+   - **หมายเหตุ:** Vite จะ bundle CSS อัตโนมัติ (index.css, App.css) ลงใน dist folder ✅
 
 6. **Environment Variables:**
    - คลิก **"Environment Variables"**
