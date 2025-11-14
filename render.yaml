@@ -1,11 +1,19 @@
 services:
-  # Define frontend first so backend can safely reference it in envVars
+  # PostgreSQL Database
+  - type: pspg
+    name: todo-database
+    plan: free
+    databaseName: todo_app
+    user: todo_user
+
+  # Frontend (Static Site)
   - type: web
     name: todo-frontend
     env: static
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
 
+  # Backend API
   - type: web
     name: todo-backend
     env: python
@@ -16,7 +24,9 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: todo-database
+          property: connectionString
       - key: SESSION_PERMANENT
         value: "true"
       - key: SESSION_COOKIE_SAMESITE

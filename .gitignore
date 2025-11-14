@@ -27,3 +27,10 @@ server/Login/venv/
 server/__pycache__/
 server/Login/__pycache__/
 server/.env
+# SQLite database (using PostgreSQL now)
+server/Login/instance/
+*.db
+*.sqlite
+*.sqlite3
+# Docker volumes
+postgres_data/
