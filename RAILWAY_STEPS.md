@@ -28,12 +28,10 @@
 2. ดูว่า service กำลังรันอยู่หรือไม่
 3. **ตั้งค่า Pre-Deploy Command** (แนะนำ - ง่ายกว่า):
    - ไปที่ **Settings** tab
-   - หา **"Pre-Deploy Command"** หรือ **"Build Command"**
-   - เพิ่ม: `FLASK_APP=app.py flask db upgrade`
-   - หรือถ้ามี **"Start Command"** → แก้เป็น:
-     ```
-     FLASK_APP=app.py flask db upgrade && gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2
-     ```
+   - หา **"Pre-Deploy Command"** หรือ **"Before Deploy"**
+   - ใส่: `cd server/Login && FLASK_APP=app.py python3 -m flask db upgrade`
+   - หรือ: `cd server/Login && export FLASK_APP=app.py && python3 -m flask db upgrade`
+   - **หมายเหตุ:** ใช้ `python3 -m flask` แทน `flask` เพื่อให้แน่ใจว่าใช้ Python ที่ถูกต้อง
 
 ---
 
@@ -92,10 +90,14 @@ curl https://your-backend.railway.app
 **แทนที่จะ run migration แยก ให้ตั้งค่าให้ run อัตโนมัติ:**
 
 1. ไปที่ **Backend service** → **Settings** tab
-2. หา **"Pre-Deploy Command"** หรือ **"Build Command"**
+2. หา **"Pre-Deploy Command"** หรือ **"Before Deploy"**
 3. ใส่:
    ```
-   FLASK_APP=app.py flask db upgrade
+   cd server/Login && FLASK_APP=app.py python3 -m flask db upgrade
+   ```
+   หรือ:
+   ```
+   cd server/Login && export FLASK_APP=app.py && python3 -m flask db upgrade
    ```
 4. **Save**
 5. Railway จะ run migration อัตโนมัติทุกครั้งที่ deploy ✅

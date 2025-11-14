@@ -44,9 +44,18 @@
    - **หมายเหตุ:** ถ้าไม่มี Root Directory setting → ใช้วิธีนี้แทน ✅
 
 8. **Run Migration (สร้าง tables):**
+
+   **วิธีที่ 1: ใช้ Pre-Deploy Command (แนะนำ - อัตโนมัติ):**
+   - ไปที่ Backend service → **Settings** tab
+   - หา **"Pre-Deploy Command"** หรือ **"Before Deploy"**
+   - ใส่: `cd server/Login && FLASK_APP=app.py python3 -m flask db upgrade`
+   - **Save**
+   - Railway จะ run migration อัตโนมัติทุกครั้งที่ deploy ✅
+
+   **วิธีที่ 2: Run Manual (ถ้าไม่มี Pre-Deploy Command):**
    - รอให้ deploy เสร็จก่อน (ดูที่ Deployments tab)
    - เมื่อ deploy เสร็จ → คลิก **"..."** → **"Open Shell"**
-   - พิมพ์: `FLASK_APP=app.py flask db upgrade`
+   - พิมพ์: `cd server/Login && FLASK_APP=app.py python3 -m flask db upgrade`
    - กด Enter
    - ✅ ควรเห็น "INFO: Alembic upgrade complete"
 
