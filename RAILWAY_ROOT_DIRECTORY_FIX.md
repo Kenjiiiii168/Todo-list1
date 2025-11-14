@@ -1,0 +1,113 @@
+# 🔧 แก้ปัญหา: ตั้งค่า Root Directory ใน Railway
+
+## ❌ ปัญหาที่เจอ:
+
+1. **Builder ยังเป็น "Railpack Default"** (Node.js builder)
+2. **ยังเห็น "Add Root Directory" link** แทน Root Directory ที่ตั้งค่าแล้ว
+3. **Pre-deploy Command มี typo:** "upgrad" แทน "upgrade"
+4. **Start Command ยังใช้ `cd server/Login`** แทน `cd Login`
+
+## ✅ วิธีแก้ (ทำตามทีละขั้น):
+
+### ขั้นตอนที่ 1: ตั้งค่า Root Directory
+
+1. ไปที่ **Backend service** → **Settings** tab
+2. **เลื่อนขึ้นไปดูส่วน "Source"** (หรือคลิก "Source" ในแถบด้านขวา)
+3. หา **"Add Root Directory"** link (หรือ "Root Directory" field)
+4. คลิก **"Add Root Directory"**
+5. ใส่: `server`
+6. **Save** หรือกด Enter
+
+**หมายเหตุ:** หลังจากตั้งค่าแล้ว จะไม่เห็น "Add Root Directory" link อีก แต่จะเห็น Root Directory ที่ตั้งค่าไว้
+
+---
+
+### ขั้นตอนที่ 2: ตรวจสอบ Builder
+
+1. **เลื่อนลงไปดูส่วน "Build"** (หรือคลิก "Build" ในแถบด้านขวา)
+2. ดูว่า **"Builder"** เปลี่ยนเป็น **"Python"** หรือ **"Nixpacks"** (ไม่ใช่ "Railpack Default")
+3. ถ้ายังเป็น "Railpack Default" → ต้องตั้ง Root Directory ใหม่ (ขั้นตอนที่ 1)
+
+---
+
+### ขั้นตอนที่ 3: แก้ Pre-deploy Command (แก้ typo)
+
+1. **เลื่อนลงไปดูส่วน "Deploy"** (หรือคลิก "Deploy" ในแถบด้านขวา)
+2. หา **"Pre-deploy Command"** field
+3. เปลี่ยนจาก:
+   ```
+   cd server/Login && FLASK_APP=app.py python -m flask db upgrad
+   ```
+   เป็น:
+   ```
+   cd Login && FLASK_APP=app.py python -m flask db upgrade
+   ```
+   **หมายเหตุ:** 
+   - แก้ "upgrad" → "upgrade"
+   - เปลี่ยน `cd server/Login` → `cd Login` (เพราะ Root Directory = `server` แล้ว)
+4. **Save**
+
+---
+
+### ขั้นตอนที่ 4: แก้ Start Command
+
+1. ในส่วน **"Deploy"** เดียวกัน
+2. หา **"Custom Start Command"** field
+3. เปลี่ยนจาก:
+   ```
+   cd server/Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2
+   ```
+   เป็น:
+   ```
+   cd Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2
+   ```
+   **หมายเหตุ:** เปลี่ยน `cd server/Login` → `cd Login` (เพราะ Root Directory = `server` แล้ว)
+4. **Save**
+
+---
+
+### ขั้นตอนที่ 5: ตรวจสอบ Build Command
+
+1. ในส่วน **"Build"**
+2. หา **"Custom Build Command"** field
+3. ตรวจสอบว่าเป็น:
+   ```
+   pip install --break-system-packages -r requirements.txt
+   ```
+   หรือถ้ายังไม่ได้:
+   ```
+   apt-get update && apt-get install -y python3-pip && pip install --break-system-packages -r requirements.txt
+   ```
+4. **Save**
+
+---
+
+## 📝 Checklist:
+
+- [ ] ตั้งค่า Root Directory = `server` ใน Source section
+- [ ] ตรวจสอบว่า Builder เปลี่ยนเป็น Python (ไม่ใช่ Railpack Default)
+- [ ] แก้ Pre-deploy Command: `cd Login && FLASK_APP=app.py python -m flask db upgrade` (แก้ typo และ path)
+- [ ] แก้ Start Command: `cd Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2` (แก้ path)
+- [ ] ตรวจสอบ Build Command: `pip install --break-system-packages -r requirements.txt`
+- [ ] Deploy ใหม่
+- [ ] ตรวจสอบ Deploy Logs ว่าไม่มี error
+
+---
+
+## 🆘 ถ้ายังหา "Add Root Directory" ไม่เจอ:
+
+1. **ลองคลิก "Source" ในแถบด้านขวา** - จะเลื่อนไปที่ Source section อัตโนมัติ
+2. **หรือเลื่อนขึ้นไปดูส่วนบนสุด** ของ Settings page
+3. **หรือใช้ช่อง "Filter Settings..."** พิมพ์ "root" เพื่อค้นหา
+
+---
+
+## 💡 สรุป:
+
+**หลังตั้ง Root Directory = `server` แล้ว:**
+- Builder จะเปลี่ยนเป็น Python อัตโนมัติ ✅
+- ใช้ `cd Login` แทน `cd server/Login` ใน Start Command และ Pre-deploy Command ✅
+- Build Command ใช้ `pip install` แทน `apt-get` + `python3-pip` ✅
+
+ลองทำตามขั้นตอนนี้ แล้วบอกผลลัพธ์!
+
