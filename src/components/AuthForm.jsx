@@ -13,10 +13,15 @@ export default function AuthForm({ mode, onSuccess }) {
     setError('')
     try {
       if (mode === 'register') {
-        await apiFetch('/api/auth/register', {
-          method: 'POST',
-          body: JSON.stringify({ username, password }),
-        })
+       const API_URL = "https://todo-backend-production-261e.up.railway.app
+";
+
+await fetch(`${API_URL}/api/auth/register`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ username, password }),
+  credentials: "include", // ถ้า backend ใช้ session/cookie
+});
       }
       const res = await apiFetch('/api/auth/login', {
         method: 'POST',
