@@ -1,0 +1,146 @@
+# 🚀 Deploy บน Railway + Vercel (ฟรี!)
+
+## 📋 ขั้นตอนง่ายๆ (ทำตามทีละขั้น)
+
+### 1️⃣ สร้างบัญชี Railway (Backend + Database)
+
+1. ไปที่ https://railway.app
+2. คลิก **"Start a New Project"**
+3. Sign up ด้วย **GitHub** (คลิกเดียว)
+4. ✅ เสร็จ!
+
+---
+
+### 2️⃣ Deploy Backend + สร้าง Database
+
+1. ใน Railway Dashboard → คลิก **"New Project"**
+2. เลือก **"Deploy from GitHub repo"**
+3. เลือก repository: `Kenjiiiii168/Todo-list1`
+4. Railway จะ detect Python project อัตโนมัติ ✅
+
+5. **สร้าง PostgreSQL Database:**
+   - คลิก **"+ New"** → **"Database"** → **"PostgreSQL"**
+   - Railway จะสร้าง database ให้อัตโนมัติ ✅
+
+6. **ตั้งค่า Environment Variables:**
+   - ไปที่ Backend service → คลิก **"Variables"** tab
+   - Railway จะ auto-generate `DATABASE_URL` ให้อัตโนมัติ (ไม่ต้องเพิ่มเอง) ✅
+   - เพิ่มตัวแปรอื่นๆ (คลิก **"+ New Variable"**):
+     ```
+     SECRET_KEY = [คลิก Generate หรือใส่ random string]
+     SESSION_PERMANENT = true
+     SESSION_COOKIE_SAMESITE = None
+     SESSION_COOKIE_SECURE = true
+     FLASK_APP = app.py
+     ```
+
+7. **ตั้งค่า Root Directory:**
+   - ไปที่ Backend service → คลิก **"Settings"** tab
+   - หา **"Root Directory"** → ใส่: `server/Login`
+   - คลิก **"Save"**
+
+8. **Run Migration (สร้าง tables):**
+   - รอให้ deploy เสร็จก่อน (ดูที่ Deployments tab)
+   - เมื่อ deploy เสร็จ → คลิก **"..."** → **"Open Shell"**
+   - พิมพ์: `FLASK_APP=app.py flask db upgrade`
+   - กด Enter
+   - ✅ ควรเห็น "INFO: Alembic upgrade complete"
+
+---
+
+### 3️⃣ Deploy Frontend บน Vercel
+
+1. ไปที่ https://vercel.com
+2. Sign up ด้วย **GitHub** (คลิกเดียว)
+3. คลิก **"Add New Project"**
+4. เลือก repository: `Kenjiiiii168/Todo-list1`
+
+5. **ตั้งค่า:**
+   - **Framework Preset:** Vite (Vercel จะ detect อัตโนมัติ)
+   - **Root Directory:** `.` (root - มีอยู่แล้ว)
+   - **Build Command:** `npm ci && npm run build` (มีอยู่แล้ว)
+   - **Output Directory:** `dist` (มีอยู่แล้ว)
+
+6. **Environment Variables:**
+   - คลิก **"Environment Variables"**
+   - เพิ่ม:
+     - **Key:** `VITE_API_BASE_URL`
+     - **Value:** URL ของ backend จาก Railway
+       - ไปที่ Railway → Backend service → คลิก **"Settings"**
+       - Copy **"Public Domain"** (เช่น `https://your-backend.railway.app`)
+       - วางใน Vercel Environment Variable
+
+7. คลิก **"Deploy"**
+   - ✅ รอสักครู่ → Frontend deploy เสร็จ!
+
+---
+
+### 4️⃣ ตั้งค่า CORS (เชื่อม Frontend กับ Backend)
+
+1. ไปที่ Railway → Backend service → **"Variables"** tab
+2. คลิก **"+ New Variable"**
+3. เพิ่ม:
+   - **Key:** `ALLOWED_ORIGINS`
+   - **Value:** URL ของ frontend จาก Vercel
+     - ไปที่ Vercel → Project → **"Settings"** → **"Domains"**
+     - Copy URL (เช่น `https://your-frontend.vercel.app`)
+     - วางใน Railway Variable
+
+4. ✅ Backend จะ restart อัตโนมัติ
+
+---
+
+### 5️⃣ ทดสอบ
+
+1. เปิด Frontend URL จาก Vercel
+2. ทดสอบ:
+   - ✅ Register (สมัครสมาชิก)
+   - ✅ Login (เข้าสู่ระบบ)
+   - ✅ สร้าง Todo
+   - ✅ แก้ไข Todo
+   - ✅ ลบ Todo
+
+---
+
+## ✅ Checklist
+
+- [ ] สร้างบัญชี Railway
+- [ ] Deploy Backend บน Railway
+- [ ] สร้าง PostgreSQL Database
+- [ ] ตั้งค่า Environment Variables
+- [ ] ตั้งค่า Root Directory = `server/Login`
+- [ ] Run Migration (`flask db upgrade`)
+- [ ] สร้างบัญชี Vercel
+- [ ] Deploy Frontend บน Vercel
+- [ ] ตั้งค่า `VITE_API_BASE_URL`
+- [ ] ตั้งค่า `ALLOWED_ORIGINS` ใน Railway
+- [ ] ทดสอบใช้งาน
+
+---
+
+## 💰 ราคา
+
+- **Railway:** ฟรี $5/เดือน (พอใช้)
+- **Vercel:** ฟรีไม่จำกัด
+- **รวม:** **ฟรี 100%!** 🎉
+
+---
+
+## 🆘 ถ้ามีปัญหา
+
+### Backend ไม่เชื่อมต่อ Database:
+- ตรวจสอบ `DATABASE_URL` ใน Railway Variables (ควรมีอยู่แล้ว)
+- ตรวจสอบว่า run migration แล้ว (`flask db upgrade`)
+
+### Frontend ไม่เชื่อมต่อ Backend:
+- ตรวจสอบ `VITE_API_BASE_URL` ใน Vercel
+- ตรวจสอบ `ALLOWED_ORIGINS` ใน Railway
+
+### CORS Error:
+- ตรวจสอบ `ALLOWED_ORIGINS` ใน Railway Backend Variables
+- ต้องเป็น URL เต็ม (เช่น `https://your-frontend.vercel.app`)
+
+---
+
+**พร้อมแล้ว! เริ่ม deploy ได้เลย! 🚀**
+
