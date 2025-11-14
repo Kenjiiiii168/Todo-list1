@@ -38,8 +38,8 @@
    - ไปที่ Backend service → คลิก **"Settings"** tab
    - หา **"Start Command"** หรือ **"Deploy Command"**
    - ใส่: `cd server/Login && gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
-   - หรือถ้ามี **"Build Command"** → ใส่: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt`
-   - **หมายเหตุ:** ใช้ `apt-get install python3-pip` แทน `ensurepip` (Railway Python image ไม่มี ensurepip)
+   - หรือถ้ามี **"Build Command"** → ใส่: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install --break-system-packages -r requirements.txt`
+   - **หมายเหตุ:** ใช้ `--break-system-packages` flag เพื่อ override externally-managed-environment (PEP 668)
    - คลิก **"Save"**
    - **หมายเหตุ:** ถ้าไม่มี Root Directory setting → ใช้วิธีนี้แทน ✅
 

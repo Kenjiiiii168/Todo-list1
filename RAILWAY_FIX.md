@@ -18,8 +18,8 @@ ERROR (catatonit:2): failed to exec pid1: No such file or directory
 
 2. **ตั้งค่า Build Command:**
    - หา **"Build Command"** หรือ **"Install Command"**
-   - ใส่: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt`
-   - **หมายเหตุ:** ใช้ `apt-get install python3-pip` แทน `ensurepip` (Railway Python image ไม่มี ensurepip)
+   - ใส่: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install --break-system-packages -r requirements.txt`
+   - **หมายเหตุ:** ใช้ `--break-system-packages` flag เพื่อ override externally-managed-environment (PEP 668)
 
 3. **ตั้งค่า Start Command:**
    - หา **"Start Command"** หรือ **"Run Command"**
