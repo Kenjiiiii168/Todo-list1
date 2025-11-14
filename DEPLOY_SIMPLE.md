@@ -38,8 +38,8 @@
    - ไปที่ Backend service → คลิก **"Settings"** tab
    - หา **"Start Command"** หรือ **"Deploy Command"**
    - ใส่: `cd server/Login && gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
-   - หรือถ้ามี **"Build Command"** → ใส่: `cd server && python3 -m pip install -r requirements.txt`
-   - **หมายเหตุ:** ใช้ `python3` แทน `python` (Railway ใช้ python3)
+   - หรือถ้ามี **"Build Command"** → ใส่: `python3 -m ensurepip --upgrade && cd server && python3 -m pip install -r requirements.txt`
+   - **หมายเหตุ:** ต้องติดตั้ง pip ก่อนด้วย `python3 -m ensurepip --upgrade`
    - คลิก **"Save"**
    - **หมายเหตุ:** ถ้าไม่มี Root Directory setting → ใช้วิธีนี้แทน ✅
 

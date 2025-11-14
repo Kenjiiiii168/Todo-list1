@@ -21,9 +21,10 @@ ERROR: failed to build: failed to solve: process "sh -c cd server && pip install
 
 2. **ตั้งค่า Build Command:**
    - หา **"Build Command"** หรือ **"Install Command"**
-   - ใส่: `cd server && python3 -m pip install -r requirements.txt`
-   - หรือ: `python3 -m pip install -r server/requirements.txt`
-   - **หมายเหตุ:** ใช้ `python3` แทน `python` (Railway ใช้ python3)
+   - ใส่: `python3 -m ensurepip --upgrade && cd server && python3 -m pip install -r requirements.txt`
+   - หรือ: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt`
+   - หรือ: `python3 -m ensurepip && cd server && python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt`
+   - **หมายเหตุ:** ต้องติดตั้ง pip ก่อนด้วย `python3 -m ensurepip` หรือ `apt-get install python3-pip`
 
 3. **ตั้งค่า Python Version (ถ้ามี):**
    - หา **"Python Version"** หรือ **"Runtime Version"**
@@ -65,13 +66,20 @@ ERROR: failed to build: failed to solve: process "sh -c cd server && pip install
 
 ## 🆘 ถ้ายังไม่ได้:
 
-ลองใช้ Build Command แบบนี้:
+ลองใช้ Build Command แบบนี้ (ติดตั้ง pip ก่อน):
+
+**วิธีที่ 1: ใช้ ensurepip (แนะนำ):**
 ```
-python3 -m pip install --upgrade pip && cd server && python3 -m pip install -r requirements.txt
+python3 -m ensurepip --upgrade && cd server && python3 -m pip install -r requirements.txt
 ```
 
-หรือ:
+**วิธีที่ 2: ใช้ apt-get:**
 ```
 apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt
+```
+
+**วิธีที่ 3: ใช้ ensurepip แบบเต็ม:**
+```
+python3 -m ensurepip && cd server && python3 -m pip install --upgrade pip setuptools wheel && python3 -m pip install -r requirements.txt
 ```
 
