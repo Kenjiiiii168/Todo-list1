@@ -21,10 +21,9 @@ ERROR: failed to build: failed to solve: process "sh -c cd server && pip install
 
 2. **ตั้งค่า Build Command:**
    - หา **"Build Command"** หรือ **"Install Command"**
-   - ใส่: `python3 -m ensurepip --upgrade && cd server && python3 -m pip install -r requirements.txt`
-   - หรือ: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt`
-   - หรือ: `python3 -m ensurepip && cd server && python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt`
-   - **หมายเหตุ:** ต้องติดตั้ง pip ก่อนด้วย `python3 -m ensurepip` หรือ `apt-get install python3-pip`
+   - ใส่: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt`
+   - หรือ: `apt-get update && apt-get install -y python3-pip python3-venv && cd server && python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt`
+   - **หมายเหตุ:** ใช้ `apt-get install python3-pip` แทน `ensurepip` (Railway Python image ไม่มี ensurepip)
 
 3. **ตั้งค่า Python Version (ถ้ามี):**
    - หา **"Python Version"** หรือ **"Runtime Version"**
@@ -68,18 +67,18 @@ ERROR: failed to build: failed to solve: process "sh -c cd server && pip install
 
 ลองใช้ Build Command แบบนี้ (ติดตั้ง pip ก่อน):
 
-**วิธีที่ 1: ใช้ ensurepip (แนะนำ):**
-```
-python3 -m ensurepip --upgrade && cd server && python3 -m pip install -r requirements.txt
-```
-
-**วิธีที่ 2: ใช้ apt-get:**
+**วิธีที่ 1: ใช้ apt-get (แนะนำ - Railway Python image ไม่มี ensurepip):**
 ```
 apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt
 ```
 
-**วิธีที่ 3: ใช้ ensurepip แบบเต็ม:**
+**วิธีที่ 2: ใช้ apt-get แบบเต็ม:**
 ```
-python3 -m ensurepip && cd server && python3 -m pip install --upgrade pip setuptools wheel && python3 -m pip install -r requirements.txt
+apt-get update && apt-get install -y python3-pip python3-venv && cd server && python3 -m pip install --upgrade pip setuptools wheel && python3 -m pip install -r requirements.txt
+```
+
+**วิธีที่ 3: ใช้ get-pip.py:**
+```
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3 get-pip.py && cd server && python3 -m pip install -r requirements.txt
 ```
 

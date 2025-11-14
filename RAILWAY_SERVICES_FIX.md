@@ -50,10 +50,10 @@ cd server && pip install -r requirements.txt
 - Node Version: `20`
 
 **Backend Service:**
-- Build Command: `python3 -m ensurepip --upgrade && cd server && python3 -m pip install -r requirements.txt`
+- Build Command: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install -r requirements.txt`
 - Start Command: `cd server/Login && python3 -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
 - Python Version: `3.11`
-- **หมายเหตุ:** ต้องติดตั้ง pip ก่อนด้วย `python3 -m ensurepip --upgrade`
+- **หมายเหตุ:** ใช้ `apt-get install python3-pip` แทน `ensurepip` (Railway Python image ไม่มี ensurepip)
 
 ## 📝 Checklist:
 
