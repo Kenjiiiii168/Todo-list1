@@ -34,30 +34,44 @@
      FLASK_APP = app.py
      ```
 
-7. **ตั้งค่า Start Command (แทน Root Directory):**
+7. **ตั้งค่า Root Directory (สำคัญมาก! - แก้ปัญหา Railway detect ผิด project type):**
    - ไปที่ Backend service → คลิก **"Settings"** tab
-   - หา **"Start Command"** หรือ **"Deploy Command"**
-   - ใส่: `cd server/Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
-   - **หมายเหตุ:** ใช้ `python` ไม่ใช่ `python3` (Railway container ใช้ `python`)
-   - หรือถ้ามี **"Build Command"** → ใส่: `apt-get update && apt-get install -y python3-pip && cd server && python3 -m pip install --break-system-packages -r requirements.txt`
+   - หา **"Root Directory"** หรือ **"Source"** หรือ **"Working Directory"**
+   - ตั้งค่าเป็น: `server`
+   - **Save**
+   - **หมายเหตุ:** วิธีนี้จะทำให้ Railway detect Python project แทน Node.js project ✅
+
+8. **ตั้งค่า Build Command:**
+   - ไปที่ Backend service → คลิก **"Settings"** tab
+   - หา **"Build Command"** หรือ **"Install Command"**
+   - ใส่: `pip install --break-system-packages -r requirements.txt`
+   - หรือถ้ายังไม่ได้: `apt-get update && apt-get install -y python3-pip && pip install --break-system-packages -r requirements.txt`
    - **หมายเหตุ:** ใช้ `--break-system-packages` flag เพื่อ override externally-managed-environment (PEP 668)
    - คลิก **"Save"**
-   - **หมายเหตุ:** ถ้าไม่มี Root Directory setting → ใช้วิธีนี้แทน ✅
 
-8. **Run Migration (สร้าง tables):**
+9. **ตั้งค่า Start Command:**
+   - ไปที่ Backend service → คลิก **"Settings"** tab
+   - หา **"Start Command"** หรือ **"Deploy Command"**
+   - ใส่: `cd Login && python -m gunicorn wsgi:application --bind 0.0.0.0:$PORT --workers 2`
+   - **หมายเหตุ:** ใช้ `python` ไม่ใช่ `python3` (Railway container ใช้ `python`)
+   - **หมายเหตุ:** ใช้ `cd Login` ไม่ใช่ `cd server/Login` เพราะ Root Directory = `server` แล้ว
+   - คลิก **"Save"**
+
+10. **Run Migration (สร้าง tables):**
 
    **วิธีที่ 1: ใช้ Pre-Deploy Command (แนะนำ - อัตโนมัติ):**
    - ไปที่ Backend service → **Settings** tab
    - หา **"Pre-Deploy Command"** หรือ **"Before Deploy"**
-   - ใส่: `cd server/Login && FLASK_APP=app.py python -m flask db upgrade`
+   - ใส่: `cd Login && FLASK_APP=app.py python -m flask db upgrade`
    - **Save**
    - Railway จะ run migration อัตโนมัติทุกครั้งที่ deploy ✅
    - **หมายเหตุ:** ใช้ `python` ไม่ใช่ `python3` (Railway container ใช้ `python`)
+   - **หมายเหตุ:** ใช้ `cd Login` ไม่ใช่ `cd server/Login` เพราะ Root Directory = `server` แล้ว
 
    **วิธีที่ 2: Run Manual (ถ้าไม่มี Pre-Deploy Command):**
    - รอให้ deploy เสร็จก่อน (ดูที่ Deployments tab)
    - เมื่อ deploy เสร็จ → คลิก **"..."** → **"Open Shell"**
-   - พิมพ์: `cd server/Login && FLASK_APP=app.py python -m flask db upgrade`
+   - พิมพ์: `cd Login && FLASK_APP=app.py python -m flask db upgrade`
    - กด Enter
    - ✅ ควรเห็น "INFO: Alembic upgrade complete"
 
