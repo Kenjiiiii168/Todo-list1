@@ -10,7 +10,8 @@ app.config.from_object(config_by_name.get('default'))
 init_extensions(app)
 
 # --- In-memory users legacy removed; DB is the source of truth ---
-
+with app.app_context():
+    db.create_all()
 # --- API auth guard ---
 def api_login_required(f):
     @wraps(f)
