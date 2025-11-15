@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { apiFetch } from '../utils/api'
+const API_URL = "https://todo-backend-production-261e.up.railway.app";
 
 export default function AuthForm({ mode, onSuccess }) {
   const [username, setUsername] = useState('')
@@ -9,27 +10,32 @@ export default function AuthForm({ mode, onSuccess }) {
   const title = mode === 'register' ? 'Register' : 'Login'
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    setError('')
-    try {
-      if (mode === 'register') {
-       const API_URL = "https://todo-backend-production-261e.up.railway.app
-";
+    e.preventDefault();
+    setError('');
 
-await fetch(`${API_URL}/api/auth/register`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ username, password }),
-  credentials: "include", // ถ้า backend ใช้ session/cookie
-});
+    try {
+      // ถ้าอยู่โหมดสมัครสมาชิก → เรียก register ที่ backend
+      if (mode === 'register') {
+        await fetch(`${API_URL}/api/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+          credentials: 'include', // ถ้า backend ใช้ session/cookie
+        });
       }
-      const res = await apiFetch('/api/auth/login', {
+
+      // จากนั้นเรียก login ที่ backend ตัวเดียวกัน
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
-      })
-      onSuccess(res)
+        credentials: 'include',
+      });
+
+      onSuccess(res);
     } catch (err) {
-      setError(err.body?.error || 'Failed')
+      console.error(err);
+      setError('Something went wrong');
     }
   }
 
