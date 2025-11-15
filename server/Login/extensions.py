@@ -15,12 +15,19 @@ default_origins = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://todo-frontend-production-a24d.up.railway.app",  # 👈 ใส่ของโอนี่จังตรงนี้
+    "https://todo-frontend-production-a24d.up.railway.app",  
 ]
     extra = [o.strip() for o in os.environ.get("ALLOWED_ORIGINS", "").split(",") if o.strip()]
-    origins = default_origins + extra
+       origins = default_origins + extra
 
-    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": origins}})
+    CORS(
+        app,
+        origins=origins,
+        supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    )
+
     db.init_app(app)
     migrate.init_app(app, db)
 
