@@ -12,8 +12,11 @@ export default function TodoApp({ user, onLoggedOut }) {
     setLoading(true)
     setError('')
     try {
-      const data = await apiFetch('/api/todos')
-      setTodos(data)
+     const data = await apiFetch('/api/todos');
+
+// ถ้า data เป็น array ก็ใช้เลย ถ้าไม่ใช่ให้ fallback เป็น []
+      setTodos(Array.isArray(data) ? data : []);
+
     } catch (err) {
       setError('โหลดรายการไม่สำเร็จ')
     } finally {
