@@ -15,17 +15,24 @@ export default function TodoApp({ user, onLoggedOut }) {
     setLoading(true)
     setError('')
     try {
-     const data = await apiFetch('/api/todos');
+      const data = await apiFetch('/api/todos')
 
-// ถ้า data เป็น array ก็ใช้เลย ถ้าไม่ใช่ให้ fallback เป็น []
-      setTodos(Array.isArray(data) ? data : []);
+      // กันไว้ ไม่ให้เราเอาของที่ไม่ใช่ array ไป map
+      let list = Array.isArray(data) ? data : []
 
+      // เผื่อกรณี backend ส่งรูปแบบ { todos: [...] }
+      if (!Array.isArray(list) && data && Array.isArray(data.todos)) {
+        list = data.todos
+      }
+
+      setTodos(list)
     } catch (err) {
       setError('โหลดรายการไม่สำเร็จ')
     } finally {
       setLoading(false)
     }
   }
+
 
   useEffect(() => {
     load()
