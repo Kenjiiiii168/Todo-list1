@@ -85,9 +85,21 @@ export default function TodoApp({ user, onLoggedOut }) {
       {loading ? (
         <div>กำลังโหลด...</div>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} onToggle={toggle} onDelete={removeTodo} />
+            <ul
+          style={{
+            listStyle: 'none',
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {safeTodos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onToggle={toggle}
+              onDelete={removeTodo}
+            />
           ))}
         </ul>
       )}
