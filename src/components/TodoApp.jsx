@@ -7,7 +7,10 @@ export default function TodoApp({ user, onLoggedOut }) {
   const [todos, setTodos] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-
+  
+ // ป้องกันกรณี todos ไม่ใช่ array (เช่น เป็น null)
+  const safeTodos = Array.isArray(todos) ? todos : []
+  
   async function load() {
     setLoading(true)
     setError('')
