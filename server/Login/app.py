@@ -188,5 +188,9 @@ def api_delete_todo(todo_id: int):
 ## Legacy template routes removed: login/register/profile (use React frontend)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    import os
+
+    port = int(os.environ.get("PORT", 5000))  # Railway จะเซ็ต PORT ให้เอง
+    app.run(host="0.0.0.0", port=port)
+
