@@ -12,6 +12,16 @@ init_extensions(app)
 # --- In-memory users legacy removed; DB is the source of truth ---
 with app.app_context():
     db.create_all()
+
+@app.after_request
+def add_cors_headers(response):
+    # origin ของ frontend ที่ Railway ให้มา
+    response.headers["Access-Control-Allow-Origin"] = "https://todo-frontend-production-a24d.up.railway.app"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    return response
+
 # --- API auth guard ---
 def api_login_required(f):
     @wraps(f)
