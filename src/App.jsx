@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import AuthenticationForm from './components/AuthenticationForm'
-import TodoDashboard from './components/TodoDashboard'
+import AuthenticationForm from './features/auth/components/AuthenticationForm'
+import TodoDashboard from './features/todos/components/TodoDashboard'
 import { authenticatedFetch } from './services/apiService'
 
 function App() {
