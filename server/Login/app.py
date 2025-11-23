@@ -16,7 +16,7 @@ with app.app_context():
 
 
 # --- API auth guard ---
-def api_login_required(f):
+def require_api_authentication(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user_id' not in session:
@@ -32,7 +32,7 @@ def index():
 # =========================== API (JSON) ===========================
 
 @app.post('/api/auth/register')
-def api_register():
+def register_new_user():
     data = request.get_json(silent=True) or {}
     username = (data.get('username') or '').strip()
     password = data.get('password') or ''
@@ -54,7 +54,7 @@ def api_register():
 
 
 @app.post('/api/auth/login')
-def api_login():
+def login_user():
     data = request.get_json(silent=True) or {}
     username = (data.get('username') or '').strip()
     password = data.get('password') or ''
@@ -69,13 +69,13 @@ def api_login():
 
 
 @app.post('/api/auth/logout')
-def api_logout():
+def logout_user():
     session.pop('user_id', None)
     return jsonify({"message": "logged_out"})
 
 
 @app.get('/api/auth/me')
-def api_me():
+def get_current_user_profile():
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({"error": "unauthorized"}), 401
@@ -87,8 +87,8 @@ def api_me():
 
 
 @app.post('/api/todos')
-@api_login_required
-def api_create_todo():
+@require_api_authentication
+def create_todo_item():
     data = request.get_json(silent=True) or {}
     title = (data.get('title') or '').strip()
     due_date_str = data.get('dueDate')
@@ -120,8 +120,8 @@ def api_create_todo():
 
 
 @app.get('/api/todos')
-@api_login_required
-def api_list_todos():
+@require_api_authentication
+def get_user_todos():
     todos = Todo.query.filter_by(user_id=session['user_id']).order_by(Todo.created_at.desc()).all()
     return jsonify([
         {
@@ -134,8 +134,8 @@ def api_list_todos():
 
 
 @app.patch('/api/todos/<int:todo_id>')
-@api_login_required
-def api_update_todo(todo_id: int):
+@require_api_authentication
+def update_todo_item(todo_id: int):
     todo = Todo.query.filter_by(id=todo_id, user_id=session['user_id']).first()
     if not todo:
         return jsonify({"error": "not_found"}), 404
@@ -169,8 +169,8 @@ def api_update_todo(todo_id: int):
 
 
 @app.delete('/api/todos/<int:todo_id>')
-@api_login_required
-def api_delete_todo(todo_id: int):
+@require_api_authentication
+def delete_todo_item(todo_id: int):
     todo = Todo.query.filter_by(id=todo_id, user_id=session['user_id']).first()
     if not todo:
         return jsonify({"error": "not_found"}), 404
