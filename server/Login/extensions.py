@@ -14,7 +14,6 @@ def init_extensions(app):
         "http://127.0.0.1:3000",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "https://todo-frontend-production-a24d.up.railway.app",  # 👈 ของโอนี่จัง
     ]
 
     # เผื่ออนาคตอยากเพิ่ม origin ผ่าน env
